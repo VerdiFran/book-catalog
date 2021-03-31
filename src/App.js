@@ -1,10 +1,21 @@
-import './App.css'
+import BookCatalogContainer from './components/BookCatalog/BookCatalogContainer'
+import {Provider} from 'react-redux'
+import store from './redux/store'
+import Header from './components/Header/Header'
+import {Layout} from 'antd'
 
-function App() {
+const App = () => {
+    const {Content} = Layout
+
     return (
-        <div className="App">
-
-        </div>
+        <Provider store={store}>
+            <div className="App">
+                <Header/>
+                <Content>
+                    <BookCatalogContainer/>
+                </Content>
+            </div>
+        </Provider>
     )
 }
 
