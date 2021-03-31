@@ -6,9 +6,13 @@ const mapStateToProps = (state) => ({
     books: getBooks(state)
 })
 
-const BookCatalogContainer = (props) => {
-    const {books} = props
-
+/**
+ * Container component that wrapped table of books and actions
+ * @param books
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const BookCatalogContainer = ({books}) => {
     return <BookCatalog data={books}/>
 }
 
