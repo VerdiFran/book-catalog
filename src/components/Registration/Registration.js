@@ -7,31 +7,50 @@ import {Button, Form, Input} from 'antd'
  * @returns {JSX.Element}
  * @constructor
  */
-const Registration = () => {
+const Registration = ({message, register}) => {
     return (
         <div>
             <Formik
                 initialValues={{
-                    login: '',
+                    email: '',
                     password: '',
                     passwordIsConfirmed: false
                 }}
-                onSubmit={(values) => {alert(JSON.stringify(values, null, 2))}}
+                onSubmit={(values) => {register(values.email, values.password)}}
             >
-                <Form layout="horizontal">
-                    <Form.Item label="Логин">
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label="Пароль">
-                        <Input.Password/>
-                    </Form.Item>
-                    <Form.Item label="Подтверждение пароля">
-                        <Input.Password/>
-                    </Form.Item>
-                    <Form.Item>
-                        <Button htmlType="submit">Зарегестрироваться</Button>
-                    </Form.Item>
-                </Form>
+                {({values, handleSubmit, handleChange, setFieldValue}) => (
+                    <Form layout="horizontal">
+                        <Form.Item label="Email">
+                            <Input
+                                name="email"
+                                value={values.email}
+                                onChange={handleChange}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Пароль">
+                            <Input.Password
+                                name="password"
+                                value={values.password}
+                                onChange={handleChange}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Подтверждение пароля">
+                            <Input.Password
+                                onChange={(e) => setFieldValue(
+                                        'passwordIsConfirmed',
+                                        values.password === e.currentTarget.value
+                                    )}
+                            />
+                        </Form.Item>
+                        {
+                            values.passwordIsConfirmed && <div>Password is confirmed</div>
+                        }
+                        <div>{message}</div>
+                        <Form.Item>
+                            <Button htmlType="submit" onClick={handleSubmit}>Зарегестрироваться</Button>
+                        </Form.Item>
+                    </Form>
+                )}
             </Formik>
         </div>
     )
