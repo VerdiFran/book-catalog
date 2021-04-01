@@ -35,4 +35,13 @@ export const login = (email, password) => dispatch => {
     })
 }
 
+export const register = (email, password) => async () => {
+    const ref = firebase.firestore().collection('users')
+    try {
+        await ref.add({email, password})
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 export default authReducer
