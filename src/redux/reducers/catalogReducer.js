@@ -1,10 +1,10 @@
 import firebase from './../../firebase'
-import {bookIdGenerator} from '../../utils/generators/idGenerator'
-
-const bookIdIterator = bookIdGenerator()
+import {bookIdGenerator} from '../../utils/generators/bookIdGenerator'
 
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
 const SET_BOOKS = 'SET_BOOKS'
+
+const bookIdIterator = bookIdGenerator()
 
 const initialState = {
     books: [

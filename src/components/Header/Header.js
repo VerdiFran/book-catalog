@@ -6,12 +6,15 @@ import {Layout} from 'antd'
  * @returns {JSX.Element}
  * @constructor
  */
-const Header = () => {
+const Header = ({isAuth, userData}) => {
     const {Header} = Layout
 
     return (
         <Header>
-            Book Catalog
+            <div>Book Catalog</div>
+            {
+                isAuth && <div>{userData}</div>
+            }
         </Header>
     )
 }

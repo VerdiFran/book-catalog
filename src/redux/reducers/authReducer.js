@@ -1,46 +1,70 @@
 import firebase from '../../firebase'
+import {userIdGenerator} from '../../utils/generators/userIdGenerator'
 
-const SET_AUTH_DATA = 'SET-AUTH-DATA'
+const SET_USER_DATA = 'SET-USER-DATA'
+const SET_MESSAGE = 'SET-MESSAGE'
+
+const userIdIterator = userIdGenerator()
 
 const initialState = {
     isAuth: false,
-    email: ''
+    email: '',
+    message: ''
 }
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_AUTH_DATA:
+        case SET_USER_DATA:
             return {
                 ...state,
                 ...action.userData,
                 isAuth: action.isAuth
+            }
+        case SET_MESSAGE:
+            return {
+                ...state,
+                message: action.message
             }
         default:
             return state
     }
 }
 
-const setIsAuth = (isAuth, userData) => ({type: SET_AUTH_DATA, isAuth, userData})
+const setUserData = (isAuth, userData) => ({type: SET_USER_DATA, isAuth, userData})
+const setMessage = (message) => ({type: SET_MESSAGE, message})
 
-export const login = (email, password) => dispatch => {
+export const login = (email, password) => async dispatch => {
     const ref = firebase.firestore().collection('users')
-    ref.onSnapshot((querySnapshot) => {
-        for (const doc of querySnapshot) {
-            const {userEmail, userPassword} = doc.data()
-            if (userEmail === email && userPassword === password) {
-                dispatch(setIsAuth(true))
-                break
-            }
-        }
-    })
+    const snap = await ref
+        .where('email', '==', email)
+        .where('password', '==', password).get()
+
+    const users = []
+    snap.forEach(doc => users.push(doc.data()))
+
+    if (users.length) {
+        dispatch(setUserData(true, {email: users[0].email}))
+    }
 }
 
-export const register = (email, password) => async () => {
+export const register = (email, password) => async dispatch => {
     const ref = firebase.firestore().collection('users')
-    try {
-        await ref.add({email, password})
-    } catch (e) {
-        console.log(e)
+
+    const snap = await ref.where('email', '==', email).get()
+
+    const users = []
+    snap.forEach(doc => users.push(doc.data()))
+
+    if (users.length) {
+        dispatch(setMessage('Пользователь с таким email уже существует, попробуйте другой.'))
+    } else {
+        const id = userIdIterator.next().value
+
+        try {
+            await ref.add({id, email, password})
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 
