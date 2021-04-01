@@ -3,6 +3,7 @@ import {bookIdGenerator} from '../../utils/generators/bookIdGenerator'
 
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
 const SET_BOOKS = 'SET_BOOKS'
+const SET_CURRENT_BOOK_INFO = 'SET-CURRENT-BOOK-INFO'
 
 const bookIdIterator = bookIdGenerator()
 
@@ -27,7 +28,9 @@ const initialState = {
             isbn: '978-5-496-00487-9'
         }
     ],
-    loading: false
+    loading: false,
+    currentBookInfo: null,
+    currentBookIsSet: false
 }
 
 const catalogReducer = (state = initialState, action) => {
@@ -42,6 +45,12 @@ const catalogReducer = (state = initialState, action) => {
                 ...state,
                 books: action.books
             }
+        case SET_CURRENT_BOOK_INFO:
+            return {
+                ...state,
+                currentBookInfo: action.currentBookInfo,
+                currentBookIsSet: action.currentBookIsSet
+            }
         default:
             return state
     }
@@ -49,6 +58,8 @@ const catalogReducer = (state = initialState, action) => {
 
 const toggleLoading = value => ({type: TOGGLE_LOADING, value})
 const setBooks = books => ({type: SET_BOOKS, books})
+const setCurrentBookInfo = (currentBookInfo, currentBookIsSet) =>
+    ({type: SET_CURRENT_BOOK_INFO, currentBookInfo, currentBookIsSet})
 
 export const getBookCatalog = () => dispatch => {
     dispatch(toggleLoading(true))
@@ -73,7 +84,6 @@ export const addBookToCatalog = (title, authors, publishingYear, isbn) => async 
 
 export const deleteBook = id => async () => {
     const ref = firebase.firestore().collection('books')
-
     const snap = await ref.where('id', '==', id).get()
 
     snap.forEach(doc => doc.ref.delete())
@@ -81,7 +91,21 @@ export const deleteBook = id => async () => {
 
 export const editBook = (id, title, authors, publishingYear, isbn) => async () => {
     const ref = firebase.firestore().collection('books')
-    await ref.doc(id).set({title, authors, publishingYear, isbn})
+    const snap = await ref.where('id', '==', id).get()
+
+    snap.forEach(doc => doc.ref.update({title, authors, publishingYear, isbn}))
+}
+
+export const setCurrentBookById = id => async dispatch => {
+    dispatch(setCurrentBookInfo(null, false))
+
+    const ref = firebase.firestore().collection('books')
+    const snap = await ref.where('id', '==', id).get()
+
+    const books = []
+    snap.forEach(doc => books.push(doc.data()))
+
+    dispatch(setCurrentBookInfo(books[0], true))
 }
 
 export default catalogReducer

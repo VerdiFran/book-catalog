@@ -8,6 +8,7 @@ import RegistrationContainer from './components/Registration/RegistrationContain
 import HeaderContainer from './components/Header/HeaderContainer'
 import {TO_CATALOG, TO_EDIT_BOOK, TO_LOGIN, TO_NEW_BOOK, TO_REGISTRATION} from './routes'
 import NewBookFormContainer from './components/BookCatalog/NewBookForm/NewBookFormContainer'
+import BookEditorFormContainer from './components/BookCatalog/BookEditorForm/BookEditorFormContainer'
 
 const App = () => {
     const {Content} = Layout
@@ -36,9 +37,9 @@ const App = () => {
                         />
                         <Route
                             path={TO_EDIT_BOOK}
-                            render={() => <RegistrationContainer/>}
+                            render={() => <BookEditorFormContainer/>}
                         />
-                        <Redirect from="/" to="/catalog"/>
+                        <Redirect from="/" to={TO_CATALOG}/>
                     </Switch>
                 </Content>
             </div>

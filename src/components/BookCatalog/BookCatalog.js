@@ -1,9 +1,9 @@
 import React from 'react'
 import {Button, Space, Table, List} from 'antd'
 import {NavLink} from 'react-router-dom'
-import {TO_NEW_BOOK} from '../../routes'
+import {TO_EDIT_BOOK, TO_NEW_BOOK} from '../../routes'
 
-const BookCatalog = ({data, deleteBook}) => {
+const BookCatalog = ({data, deleteBook, setCurrentBook}) => {
     const columns = [
         {
             title: 'Название',
@@ -34,7 +34,9 @@ const BookCatalog = ({data, deleteBook}) => {
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button>Редактировать</Button>
+                    <Button onClick={() => setCurrentBook(record.id)}>
+                        <NavLink to={TO_EDIT_BOOK}>Редактировать</NavLink>
+                    </Button>
                     <Button onClick={() => deleteBook(record.id)}>Удалить</Button>
                 </Space>
             )
