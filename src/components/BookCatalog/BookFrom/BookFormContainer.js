@@ -1,15 +1,11 @@
 import BookForm from './BookForm'
 import {connect} from 'react-redux'
-import {getCurrentBookIsSet} from '../../../utils/selectors/catalogSelectors'
 
 const mapStateToProps = (state) => ({
-    currentBookIsSet: getCurrentBookIsSet(state)
 })
 
 const BookFormContainer = (props) => {
-    const {currentBookIsSet, formValues} = props
-
-    if (!currentBookIsSet) return <h1>Loading...</h1>
+    const {formValues} = props
 
     const initialValues = formValues || {
         title: '',
