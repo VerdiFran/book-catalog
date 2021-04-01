@@ -1,3 +1,7 @@
+import firebase from './../../firebase'
+
+const TOGGLE_LOADING = 'TOGGLE-LOADING'
+const SET_BOOKS = 'SET_BOOKS'
 
 const initialState = {
     books: [
@@ -19,14 +23,42 @@ const initialState = {
             publishingYear: 2013,
             isbn: '978-5-496-00487-9'
         }
-    ]
+    ],
+    loading: false
 }
 
 const catalogReducer = (state = initialState, action) => {
     switch (action.type) {
+        case TOGGLE_LOADING:
+            return {
+                ...state,
+                loading: action.value
+            }
+        case SET_BOOKS:
+            return {
+                ...state,
+                books: action.books
+            }
         default:
             return state
     }
+}
+
+const toggleLoading = value => ({type: TOGGLE_LOADING, value})
+const setBooks = books => ({type: SET_BOOKS, books})
+
+export const getBookCatalog = () => dispatch => {
+    dispatch(toggleLoading(true))
+
+    const ref = firebase.firestore().collection('books')
+    ref.onSnapshot((querySnapshot) => {
+        const items = []
+        querySnapshot.forEach((doc) => {
+            items.push(doc.data())
+        })
+        dispatch(setBooks(items))
+        dispatch(toggleLoading(false))
+    })
 }
 
 export default catalogReducer
