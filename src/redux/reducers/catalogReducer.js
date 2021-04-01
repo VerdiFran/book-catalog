@@ -1,4 +1,7 @@
 import firebase from './../../firebase'
+import {bookIdGenerator} from '../../utils/generators/idGenerator'
+
+const bookIdIterator = bookIdGenerator()
 
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
 const SET_BOOKS = 'SET_BOOKS'
@@ -59,6 +62,23 @@ export const getBookCatalog = () => dispatch => {
         dispatch(setBooks(items))
         dispatch(toggleLoading(false))
     })
+}
+
+export const addBookToCatalog = (title, authors, publishingYear, isbn) => async () => {
+    const ref = firebase.firestore().collection('books')
+    let id = bookIdIterator.next().value
+
+    await ref.add({id, title, authors, publishingYear, isbn})
+}
+
+export const deleteBook = id => async () => {
+    const ref = firebase.firestore().collection('books')
+    await ref.doc(id).delete()
+}
+
+export const editBook = (id, title, authors, publishingYear, isbn) => async () => {
+    const ref = firebase.firestore().collection('books')
+    await ref.doc(id).set({title, authors, publishingYear, isbn})
 }
 
 export default catalogReducer

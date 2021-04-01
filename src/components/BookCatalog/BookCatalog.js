@@ -1,7 +1,7 @@
 import React from 'react'
-import {Button, Space, Table} from 'antd'
+import {Button, Space, Table, List} from 'antd'
 
-const BookCatalog = ({data}) => {
+const BookCatalog = ({data, addBook}) => {
     const columns = [
         {
             title: 'Название',
@@ -11,7 +11,10 @@ const BookCatalog = ({data}) => {
         {
             title: 'Авторы',
             dataIndex: 'authors',
-            key: 'authors'
+            key: 'authors',
+            render: (authors) => <List>
+                {authors.map(author => <List.Item>{author}</List.Item>)}
+            </List>
         },
         {
             title: 'Год издания',
@@ -38,7 +41,7 @@ const BookCatalog = ({data}) => {
 
     return (
         <div>
-            <Button>Добавить</Button>
+            <Button onClick={() => addBook('Book Title', ['Author1', 'Author2'], 2014, '111-1-11111-111-1')}>Добавить</Button>
             <Table dataSource={data} columns={columns}/>
         </div>
     )
