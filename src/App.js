@@ -6,6 +6,8 @@ import {BrowserRouter, withRouter, Switch, Route, Redirect} from 'react-router-d
 import LoginContainer from './components/Login/LoginContainer'
 import RegistrationContainer from './components/Registration/RegistrationContainer'
 import HeaderContainer from './components/Header/HeaderContainer'
+import {TO_CATALOG, TO_EDIT_BOOK, TO_LOGIN, TO_NEW_BOOK, TO_REGISTRATION} from './routes'
+import NewBookFormContainer from './components/BookCatalog/NewBookForm/NewBookFormContainer'
 
 const App = () => {
     const {Content} = Layout
@@ -17,15 +19,23 @@ const App = () => {
                 <Content>
                     <Switch>
                         <Route
-                            path="/catalog"
+                            path={TO_CATALOG}
                             render={() => <BookCatalogContainer/>}
                         />
                         <Route
-                            path="/login"
+                            path={TO_LOGIN}
                             render={() => <LoginContainer/>}
                         />
                         <Route
-                            path="/registration"
+                            path={TO_REGISTRATION}
+                            render={() => <RegistrationContainer/>}
+                        />
+                        <Route
+                            path={TO_NEW_BOOK}
+                            render={() => <NewBookFormContainer/>}
+                        />
+                        <Route
+                            path={TO_EDIT_BOOK}
                             render={() => <RegistrationContainer/>}
                         />
                         <Redirect from="/" to="/catalog"/>

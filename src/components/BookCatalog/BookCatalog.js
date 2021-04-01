@@ -1,7 +1,9 @@
 import React from 'react'
 import {Button, Space, Table, List} from 'antd'
+import {NavLink} from 'react-router-dom'
+import {TO_NEW_BOOK} from '../../routes'
 
-const BookCatalog = ({data, addBook}) => {
+const BookCatalog = ({data}) => {
     const columns = [
         {
             title: 'Название',
@@ -41,7 +43,7 @@ const BookCatalog = ({data, addBook}) => {
 
     return (
         <div>
-            <Button onClick={() => addBook('Book Title', ['Author1', 'Author2'], 2014, '111-1-11111-111-1')}>Добавить</Button>
+            <Button><NavLink to={TO_NEW_BOOK}>Добавить</NavLink></Button>
             <Table dataSource={data} columns={columns}/>
         </div>
     )
