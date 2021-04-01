@@ -1,11 +1,8 @@
 import firebase from './../../firebase'
-import {bookIdGenerator} from '../../utils/generators/bookIdGenerator'
 
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
 const SET_BOOKS = 'SET_BOOKS'
 const SET_CURRENT_BOOK_INFO = 'SET-CURRENT-BOOK-INFO'
-
-const bookIdIterator = bookIdGenerator()
 
 const initialState = {
     books: [
@@ -77,30 +74,28 @@ export const getBookCatalog = () => dispatch => {
 
 export const addBookToCatalog = (title, authors, publishingYear, isbn) => async () => {
     const ref = firebase.firestore().collection('books')
-    let id = bookIdIterator.next().value
-
-    await ref.add({id, title, authors, publishingYear, isbn})
+    await ref.add({title, authors, publishingYear, isbn})
 }
 
-export const deleteBook = id => async () => {
+export const deleteBook = isbn => async () => {
     const ref = firebase.firestore().collection('books')
-    const snap = await ref.where('id', '==', id).get()
+    const snap = await ref.where('isbn', '==', isbn).get()
 
     snap.forEach(doc => doc.ref.delete())
 }
 
-export const editBook = (id, title, authors, publishingYear, isbn) => async () => {
+export const editBook = (title, authors, publishingYear, isbn) => async () => {
     const ref = firebase.firestore().collection('books')
-    const snap = await ref.where('id', '==', id).get()
+    const snap = await ref.where('isbn', '==', isbn).get()
 
     snap.forEach(doc => doc.ref.update({title, authors, publishingYear, isbn}))
 }
 
-export const setCurrentBookById = id => async dispatch => {
+export const setCurrentBookByIsbn = isbn => async dispatch => {
     dispatch(setCurrentBookInfo(null, false))
 
     const ref = firebase.firestore().collection('books')
-    const snap = await ref.where('id', '==', id).get()
+    const snap = await ref.where('isbn', '==', isbn).get()
 
     const books = []
     snap.forEach(doc => books.push(doc.data()))

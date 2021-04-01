@@ -2,7 +2,7 @@ import BookCatalog from './BookCatalog'
 import {connect} from 'react-redux'
 import {getBooks, getLoading} from '../../utils/selectors/catalogSelectors'
 import {useEffect} from 'react'
-import {deleteBook, editBook, getBookCatalog, setCurrentBookById} from '../../redux/reducers/catalogReducer'
+import {deleteBook, editBook, getBookCatalog, setCurrentBookByIsbn} from '../../redux/reducers/catalogReducer'
 
 const mapStateToProps = (state) => ({
     books: getBooks(state),
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => ({
  * @returns {JSX.Element}
  * @constructor
  */
-const BookCatalogContainer = ({books, loading, getBookCatalog, deleteBook, setCurrentBookById}) => {
+const BookCatalogContainer = ({books, loading, getBookCatalog, deleteBook, setCurrentBookByIsbn}) => {
     useEffect(() => {
         getBookCatalog()
     }, [])
@@ -29,8 +29,8 @@ const BookCatalogContainer = ({books, loading, getBookCatalog, deleteBook, setCu
     return <BookCatalog
         data={books}
         deleteBook={deleteBook}
-        setCurrentBook={setCurrentBookById}
+        setCurrentBook={setCurrentBookByIsbn}
     />
 }
 
-export default connect(mapStateToProps, {getBookCatalog, deleteBook, editBook, setCurrentBookById})(BookCatalogContainer)
+export default connect(mapStateToProps, {getBookCatalog, deleteBook, editBook, setCurrentBookByIsbn})(BookCatalogContainer)
