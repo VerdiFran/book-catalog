@@ -1,6 +1,6 @@
 import firebase from '../../firebase'
 
-const SET_AUTH_DATA = 'SET-AUTH-DATA'
+const SET_USER_DATA = 'SET-USER-DATA'
 
 const initialState = {
     isAuth: false,
@@ -9,7 +9,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_AUTH_DATA:
+        case SET_USER_DATA:
             return {
                 ...state,
                 ...action.userData,
@@ -20,19 +20,20 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-const setIsAuth = (isAuth, userData) => ({type: SET_AUTH_DATA, isAuth, userData})
+const setUserData = (isAuth, userData) => ({type: SET_USER_DATA, isAuth, userData})
 
-export const login = (email, password) => dispatch => {
+export const login = (email, password) => async dispatch => {
     const ref = firebase.firestore().collection('users')
-    ref.onSnapshot((querySnapshot) => {
-        for (const doc of querySnapshot) {
-            const {userEmail, userPassword} = doc.data()
-            if (userEmail === email && userPassword === password) {
-                dispatch(setIsAuth(true))
-                break
-            }
-        }
-    })
+    const snap = await ref
+        .where('email', '==', email)
+        .where('password', '==', password).get()
+
+    const users = []
+    snap.forEach(doc => users.push(doc.data()))
+
+    if (users.length) {
+        dispatch(setUserData(true, {email: users[0].email}))
+    }
 }
 
 export const register = (email, password) => async () => {

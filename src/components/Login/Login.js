@@ -7,27 +7,39 @@ import {Button, Form, Input} from 'antd'
  * @returns {JSX.Element}
  * @constructor
  */
-const Login = () => {
+const Login = ({login}) => {
     return (
         <div>
             <Formik
                 initialValues={{
-                    login: '',
-                    password: ''
+                    email: 'ttt@mail.ru',
+                    password: 'password123'
                 }}
-                onSubmit={(values) => {alert(JSON.stringify(values, null, 2))}}
+                onSubmit={(values) => {
+                    login(values.email, values.password)
+                }}
             >
-                <Form layout="horizontal">
-                    <Form.Item label="Логин">
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item label="Пароль">
-                        <Input.Password/>
-                    </Form.Item>
-                    <Form.Item>
-                        <Button htmlType="submit">Войти</Button>
-                    </Form.Item>
-                </Form>
+                {({values, handleSubmit, handleChange}) => (
+                    <Form layout="horizontal">
+                        <Form.Item label="Email">
+                            <Input
+                                name="email"
+                                value={values.email}
+                                onChange={handleChange}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Пароль">
+                            <Input.Password
+                                name="password"
+                                value={values.password}
+                                onChange={handleChange}
+                            />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button htmlType="submit" onClick={handleSubmit}>Войти</Button>
+                        </Form.Item>
+                    </Form>
+                )}
             </Formik>
         </div>
     )

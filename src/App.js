@@ -1,11 +1,11 @@
 import BookCatalogContainer from './components/BookCatalog/BookCatalogContainer'
 import {Provider} from 'react-redux'
 import store from './redux/store'
-import Header from './components/Header/Header'
 import {Layout} from 'antd'
 import {BrowserRouter, withRouter, Switch, Route, Redirect} from 'react-router-dom'
-import Login from './components/Login/Login'
-import Registration from './components/Registration/Registration'
+import LoginContainer from './components/Login/LoginContainer'
+import RegistrationContainer from './components/Registration/RegistrationContainer'
+import HeaderContainer from './components/Header/HeaderContainer'
 
 const App = () => {
     const {Content} = Layout
@@ -13,7 +13,7 @@ const App = () => {
     return (
         <Provider store={store}>
             <div className="App">
-                <Header/>
+                <HeaderContainer/>
                 <Content>
                     <Switch>
                         <Route
@@ -22,11 +22,11 @@ const App = () => {
                         />
                         <Route
                             path="/login"
-                            render={() => <Login/>}
+                            render={() => <LoginContainer/>}
                         />
                         <Route
-                            path="/register"
-                            render={() => <Registration/>}
+                            path="/registration"
+                            render={() => <RegistrationContainer/>}
                         />
                         <Redirect from="/" to="/catalog"/>
                     </Switch>
