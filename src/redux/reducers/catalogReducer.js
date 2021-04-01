@@ -73,7 +73,10 @@ export const addBookToCatalog = (title, authors, publishingYear, isbn) => async 
 
 export const deleteBook = id => async () => {
     const ref = firebase.firestore().collection('books')
-    await ref.doc(id).delete()
+
+    const snap = await ref.where('id', '==', id).get()
+
+    snap.forEach(doc => doc.ref.delete())
 }
 
 export const editBook = (id, title, authors, publishingYear, isbn) => async () => {

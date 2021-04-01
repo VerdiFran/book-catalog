@@ -3,7 +3,7 @@ import {Button, Space, Table, List} from 'antd'
 import {NavLink} from 'react-router-dom'
 import {TO_NEW_BOOK} from '../../routes'
 
-const BookCatalog = ({data}) => {
+const BookCatalog = ({data, deleteBook}) => {
     const columns = [
         {
             title: 'Название',
@@ -32,10 +32,10 @@ const BookCatalog = ({data}) => {
             title: 'Действия',
             dataIndex: 'actions',
             key: 'actions',
-            render: () => (
+            render: (text, record) => (
                 <Space size="middle">
                     <Button>Редактировать</Button>
-                    <Button>Удалить</Button>
+                    <Button onClick={() => deleteBook(record.id)}>Удалить</Button>
                 </Space>
             )
         }
