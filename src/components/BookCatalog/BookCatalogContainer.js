@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {getBooks, getLoading} from '../../utils/selectors/catalogSelectors'
 import {useEffect} from 'react'
 import {deleteBook, editBook, getBookCatalog, setCurrentBookByIsbn} from '../../redux/reducers/catalogReducer'
+import {compose} from 'redux'
+import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 const mapStateToProps = (state) => ({
     books: getBooks(state),
@@ -32,6 +34,7 @@ const BookCatalogContainer = ({books, loading, getBookCatalog, deleteBook, setCu
     />
 }
 
-export default connect(
-    mapStateToProps, {getBookCatalog, deleteBook, editBook, setCurrentBookByIsbn}
+export default compose(
+    withAuthRedirect,
+    connect(mapStateToProps, {getBookCatalog, deleteBook, editBook, setCurrentBookByIsbn})
 )(BookCatalogContainer)

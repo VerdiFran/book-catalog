@@ -1,6 +1,8 @@
 import {connect} from 'react-redux'
 import NewBookForm from './NewBookForm'
 import {addBookToCatalog} from '../../../redux/reducers/catalogReducer'
+import {compose} from 'redux'
+import withAuthRedirect from '../../../hoc/withAuthRedirect'
 
 const NewBookFormContainer = (props) => {
     const {addBookToCatalog} = props
@@ -13,4 +15,7 @@ const NewBookFormContainer = (props) => {
     />
 }
 
-export default connect(null, {addBookToCatalog})(NewBookFormContainer)
+export default compose(
+    withAuthRedirect,
+    connect(null, {addBookToCatalog})
+)(NewBookFormContainer)
