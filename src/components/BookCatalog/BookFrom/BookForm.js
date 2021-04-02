@@ -8,9 +8,7 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values) => {
-                handleSubmit(values)
-            }}
+            onSubmit={(values) => handleSubmit(values)}
         >
             {({values, handleSubmit, handleChange}) => (
                 <Form layout="vertical">

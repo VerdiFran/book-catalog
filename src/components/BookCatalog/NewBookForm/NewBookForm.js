@@ -8,7 +8,7 @@ const NewBookForm = ({handleSubmit}) => {
 
     return (
         <div className={styles.formContainer}>
-            <Title level={5}>Добавление книги</Title>
+            <Title level={4}>Добавление книги</Title>
             <BookFormContainer
                 submitButtonText="Подтвердить"
                 handleSubmit={handleSubmit}
