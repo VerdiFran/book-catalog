@@ -18,7 +18,7 @@ const App = () => {
         <Provider store={store}>
             <div className="App">
                 <HeaderContainer/>
-                <Content>
+                <Content style={{padding: '20px'}}>
                     <Switch>
                         <Route
                             path={TO_CATALOG}
