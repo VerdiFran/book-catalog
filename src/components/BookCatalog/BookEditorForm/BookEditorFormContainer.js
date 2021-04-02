@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {editBook} from '../../../redux/reducers/catalogReducer'
 import {getCurrentBookInfo, getCurrentBookIsSet} from '../../../utils/selectors/catalogSelectors'
 import {Spin} from 'antd'
+import {compose} from 'redux'
+import withAuthRedirect from '../../../hoc/withAuthRedirect'
 
 const mapStateToProps = (state) => ({
     currentBookInfo: getCurrentBookInfo(state),
@@ -21,4 +23,7 @@ const BookEditorFromContainer = ({currentBookInfo, currentBookIsSet, editBook}) 
     />
 }
 
-export default connect(mapStateToProps, {editBook})(BookEditorFromContainer)
+export default compose(
+    withAuthRedirect,
+    connect(mapStateToProps, {editBook})
+)(BookEditorFromContainer)
