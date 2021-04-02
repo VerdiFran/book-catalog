@@ -1,15 +1,14 @@
 import firebase from '../../firebase'
 import {userIdGenerator} from '../../utils/generators/userIdGenerator'
+import {message} from 'antd'
 
 const SET_USER_DATA = 'SET-USER-DATA'
-const SET_MESSAGE = 'SET-MESSAGE'
 
 const userIdIterator = userIdGenerator()
 
 const initialState = {
     isAuth: false,
-    email: '',
-    message: ''
+    email: ''
 }
 
 const authReducer = (state = initialState, action) => {
@@ -20,18 +19,12 @@ const authReducer = (state = initialState, action) => {
                 ...action.userData,
                 isAuth: action.isAuth
             }
-        case SET_MESSAGE:
-            return {
-                ...state,
-                message: action.message
-            }
         default:
             return state
     }
 }
 
 const setUserData = (isAuth, userData) => ({type: SET_USER_DATA, isAuth, userData})
-const setMessage = (message) => ({type: SET_MESSAGE, message})
 
 export const login = (email, password) => async dispatch => {
     const ref = firebase.firestore().collection('users')
@@ -47,7 +40,7 @@ export const login = (email, password) => async dispatch => {
     }
 }
 
-export const register = (email, password) => async dispatch => {
+export const register = (email, password) => async () => {
     const ref = firebase.firestore().collection('users')
 
     const snap = await ref.where('email', '==', email).get()
@@ -56,7 +49,7 @@ export const register = (email, password) => async dispatch => {
     snap.forEach(doc => users.push(doc.data()))
 
     if (users.length) {
-        dispatch(setMessage('Пользователь с таким email уже существует, попробуйте другой.'))
+        message.error('Пользователь с таким email уже существует.')
     } else {
         const id = userIdIterator.next().value
 

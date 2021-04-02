@@ -24,13 +24,14 @@ const BookCatalogContainer = ({books, loading, getBookCatalog, deleteBook, setCu
         getBookCatalog()
     }, [])
 
-    if (loading) return <h1>Loading...</h1>
-
     return <BookCatalog
+        loading={loading}
         data={books}
         deleteBook={deleteBook}
         setCurrentBook={setCurrentBookByIsbn}
     />
 }
 
-export default connect(mapStateToProps, {getBookCatalog, deleteBook, editBook, setCurrentBookByIsbn})(BookCatalogContainer)
+export default connect(
+    mapStateToProps, {getBookCatalog, deleteBook, editBook, setCurrentBookByIsbn}
+)(BookCatalogContainer)

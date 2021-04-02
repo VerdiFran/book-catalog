@@ -1,15 +1,16 @@
 import React from 'react'
 import BookFormContainer from '../BookFrom/BookFormContainer'
 import {Typography} from 'antd'
+import styles from './NewBookForm.module.scss'
 
 const NewBookForm = ({handleSubmit}) => {
     const {Title} = Typography
 
     return (
-        <div>
-            <Title>Добавление книги</Title>
+        <div className={styles.formContainer}>
+            <Title level={4}>Добавление книги</Title>
             <BookFormContainer
-                submitButtonText="Добавить"
+                submitButtonText="Подтвердить"
                 handleSubmit={handleSubmit}
             />
         </div>

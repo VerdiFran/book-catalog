@@ -2,6 +2,7 @@ import BookEditorForm from './BookEditorForm'
 import {connect} from 'react-redux'
 import {editBook} from '../../../redux/reducers/catalogReducer'
 import {getCurrentBookInfo, getCurrentBookIsSet} from '../../../utils/selectors/catalogSelectors'
+import {Spin} from 'antd'
 
 const mapStateToProps = (state) => ({
     currentBookInfo: getCurrentBookInfo(state),
@@ -12,7 +13,7 @@ const BookEditorFromContainer = ({currentBookInfo, currentBookIsSet, editBook}) 
     const handleSubmit = (values) =>
         editBook(values.title, values.authors, values.publishingYear, values.isbn)
 
-    if (!currentBookIsSet) return <h1>Loading...</h1>
+    if (!currentBookIsSet) return <Spin><BookEditorForm/></Spin>
 
     return <BookEditorForm
         formValues={currentBookInfo}

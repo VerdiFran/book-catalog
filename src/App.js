@@ -9,6 +9,7 @@ import HeaderContainer from './components/Header/HeaderContainer'
 import {TO_CATALOG, TO_EDIT_BOOK, TO_LOGIN, TO_NEW_BOOK, TO_REGISTRATION} from './routes'
 import NewBookFormContainer from './components/BookCatalog/NewBookForm/NewBookFormContainer'
 import BookEditorFormContainer from './components/BookCatalog/BookEditorForm/BookEditorFormContainer'
+import './App.less'
 
 const App = () => {
     const {Content} = Layout
@@ -17,7 +18,7 @@ const App = () => {
         <Provider store={store}>
             <div className="App">
                 <HeaderContainer/>
-                <Content>
+                <Content style={{padding: '20px'}}>
                     <Switch>
                         <Route
                             path={TO_CATALOG}
