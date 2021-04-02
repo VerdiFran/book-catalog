@@ -1,0 +1,24 @@
+@import "./../../common-scss/colors";
+
+.headerContainer {
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $secondary-color;
+    box-shadow: 3px 0  3px 3px $shadow-color;
+}
+
+.userData {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titleButton {
+    font-size: 18pt;
+}
