@@ -1,6 +1,8 @@
 import React from 'react'
 import {Button, Form, Input} from 'antd'
+import {MinusSquareOutlined, PlusSquareOutlined} from '@ant-design/icons'
 import {FieldArray, Formik} from 'formik'
+import styles from './BookForm.module.scss'
 
 const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
     return (
@@ -11,7 +13,7 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
             }}
         >
             {({values, handleSubmit, handleChange}) => (
-                <Form>
+                <Form layout="vertical">
                     <Form.Item label="Название">
                         <Input
                             name="title"
@@ -25,16 +27,29 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
                                 <div>
                                     {
                                         values.authors.length > 0 &&
-                                        values.authors.map((author, index) => <div key={index}>
-                                            <Input
-                                                value={author}
-                                                name={`authors.${index}`}
-                                                onChange={handleChange}
-                                            />
-                                            <Button onClick={() => remove(index)}>Удалить</Button>
-                                        </div>)
+                                        values.authors.map((author, index) => (
+                                            <div
+                                                key={index}
+                                                className={styles.authorsFieldContainer}
+                                            >
+                                                <Input
+                                                    value={author}
+                                                    name={`authors.${index}`}
+                                                    onChange={handleChange}
+                                                />
+                                                <Button
+                                                    onClick={() => remove(index)}
+                                                    icon={<MinusSquareOutlined/>}
+                                                    type="dashed"
+                                                    danger
+                                                >Удалить</Button>
+                                            </div>))
                                     }
-                                    <Button onClick={() => push('')}>+</Button>
+                                    <Button
+                                        onClick={() => push('')}
+                                        icon={<PlusSquareOutlined/>}
+                                        type="dashed"
+                                    >Добавить автора</Button>
                                 </div>
                             )}
                         </FieldArray>
@@ -54,7 +69,10 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button htmlType="submit" onClick={handleSubmit}>{submitButtonText}</Button>
+                        <div className={styles.buttonsContainer}>
+                            <Button onClick={() => window.history.back()}>Отменить</Button>
+                            <Button htmlType="submit" onClick={handleSubmit} type="primary">{submitButtonText}</Button>
+                        </div>
                     </Form.Item>
                 </Form>
             )}
