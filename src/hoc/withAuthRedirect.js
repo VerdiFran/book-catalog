@@ -9,7 +9,8 @@ const mapStateToProps = (state) => ({
 
 /**
  * HOC that returns redirect to login if user is not authenticated
- * @param Component Component that will be wrapped
+ *
+ * @param Component Component that will be wrapped and protected
  * @returns Component
  */
 const withAuthRedirect = (Component) => {
