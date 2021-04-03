@@ -31,6 +31,12 @@ const authReducer = (state = initialState, action) => {
 const setUserData = (isAuth, userData) => ({type: SET_USER_DATA, isAuth, userData})
 const toggleLoading = (loading) => ({type: TOGGLE_LOADING, loading})
 
+/**
+ * Login user with firebase by email and password
+ * @param {string} email Email
+ * @param {string} password Password
+ * @returns {function(*): Promise<void>}
+ */
 export const login = (email, password) => async (dispatch) => {
     dispatch(toggleLoading(true))
 
@@ -51,6 +57,12 @@ export const login = (email, password) => async (dispatch) => {
     dispatch(toggleLoading(false))
 }
 
+/**
+ * Register user with firebase by email and password
+ * @param {string} email Email
+ * @param {string} password Password
+ * @returns {function(*): Promise<void>}
+ */
 export const register = (email, password) => async (dispatch) => {
     dispatch(toggleLoading(true))
 

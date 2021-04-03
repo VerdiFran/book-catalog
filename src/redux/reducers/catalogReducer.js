@@ -39,7 +39,11 @@ const setBooks = (books) => ({type: SET_BOOKS, books})
 const setCurrentBookData = (currentBookData, currentBookIsSet) =>
     ({type: SET_CURRENT_BOOK_DATA, currentBookData, currentBookIsSet})
 
-export const getBookCatalog = () => dispatch => {
+/**
+ * Get book catalog from firestore and set it to redux store
+ * @returns {function(*): void}
+ */
+export const getBookCatalog = () => (dispatch) => {
     dispatch(toggleLoading(true))
 
     const ref = firebase.firestore().collection('books')
@@ -56,22 +60,49 @@ export const getBookCatalog = () => dispatch => {
     })
 }
 
+/**
+ * Add book to catalog with firebase
+ * @param {string} title Title of book
+ * @param {string[]} authors Authors of book
+ * @param {number} publishingYear Year of publishing
+ * @param {string} isbn ISBN of book
+ * @returns {function(): Promise<void>}
+ */
 export const addBookToCatalog = (title, authors, publishingYear, isbn) => async () => {
     const ref = firebase.firestore().collection('books')
     await ref.add({title, authors, publishingYear, isbn})
 }
 
+/**
+ * Delete book from catalog with firebase
+ * @param {string} id Document (book) ID
+ * @returns {function(): Promise<void>}
+ */
 export const deleteBook = (id) => async () => {
     const ref = firebase.firestore().collection('books')
     await ref.doc(id).delete()
 }
 
+/**
+ * Update book data with firebase
+ * @param {string} id Document (book) ID
+ * @param {string} title Title of book
+ * @param {string[]} authors Authors of book
+ * @param {number} publishingYear Year of publishing
+ * @param {string} isbn ISBN of book
+ * @returns {function(): Promise<void>}
+ */
 export const editBook = (id, title, authors, publishingYear, isbn) => async () => {
     const ref = firebase.firestore().collection('books')
     await ref.doc(id).update({title, authors, publishingYear, isbn})
 }
 
-export const setCurrentBookById = (id) => async dispatch => {
+/**
+ * Get selected book data from firestore and set it to redux store
+ * @param {string} id Document (book) ID
+ * @returns {function(*): Promise<void>}
+ */
+export const setCurrentBookById = (id) => async (dispatch) => {
     dispatch(setCurrentBookData(null, false))
 
     const ref = firebase.firestore().collection('books')
