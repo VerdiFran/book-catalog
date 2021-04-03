@@ -3,12 +3,14 @@ import {userIdGenerator} from '../../utils/generators/userIdGenerator'
 import {message} from 'antd'
 
 const SET_USER_DATA = 'SET-USER-DATA'
+const TOGGLE_LOADING = 'TOGGLE-LOADING'
 
 const userIdIterator = userIdGenerator()
 
 const initialState = {
     isAuth: false,
-    email: ''
+    email: '',
+    loading: false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -19,14 +21,22 @@ const authReducer = (state = initialState, action) => {
                 ...action.userData,
                 isAuth: action.isAuth
             }
+        case TOGGLE_LOADING:
+            return {
+                ...state,
+                loading: action.loading
+            }
         default:
             return state
     }
 }
 
 const setUserData = (isAuth, userData) => ({type: SET_USER_DATA, isAuth, userData})
+const toggleLoading = (loading) => ({type: TOGGLE_LOADING, loading})
 
-export const login = (email, password) => async dispatch => {
+export const login = (email, password) => async (dispatch) => {
+    dispatch(toggleLoading(true))
+
     const ref = firebase.firestore().collection('users')
     const snap = await ref
         .where('email', '==', email)
@@ -37,10 +47,14 @@ export const login = (email, password) => async dispatch => {
 
     if (users.length) {
         dispatch(setUserData(true, {email: users[0].email}))
-    }
+    } else message.error('Неверный email или пароль.', 5)
+
+    dispatch(toggleLoading(false))
 }
 
-export const register = (email, password) => async () => {
+export const register = (email, password) => async (dispatch) => {
+    dispatch(toggleLoading(true))
+
     const ref = firebase.firestore().collection('users')
 
     const snap = await ref.where('email', '==', email).get()
@@ -59,6 +73,8 @@ export const register = (email, password) => async () => {
             console.log(e)
         }
     }
+
+    dispatch(toggleLoading(false))
 }
 
 export default authReducer

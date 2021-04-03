@@ -9,7 +9,7 @@ import * as Yup from 'yup'
  * @returns {JSX.Element}
  * @constructor
  */
-const Login = ({login}) => {
+const Login = ({loading, login}) => {
     const {Title} = Typography
 
     const LoginSchema = Yup.object().shape({
@@ -66,12 +66,13 @@ const Login = ({login}) => {
                                 <div className={styles.buttonContainer}>
                                     <Button
                                         htmlType="submit"
+                                        type="primary"
+                                        loading={loading}
                                         onClick={() => {
                                             validateForm()
                                                 .then((errors) => setValidateErrors(errors))
                                             handleSubmit()
                                         }}
-                                        type="primary"
                                     >Войти</Button>
                                 </div>
                             </Form.Item>

@@ -9,7 +9,7 @@ import * as Yup from 'yup'
  * @returns {JSX.Element}
  * @constructor
  */
-const Registration = ({register}) => {
+const Registration = ({loading, register}) => {
     const {Title} = Typography
 
     const RegistrationSchema = Yup.object().shape({
@@ -106,6 +106,7 @@ const Registration = ({register}) => {
                                     <Button
                                         htmlType="submit"
                                         type="primary"
+                                        loading={loading}
                                         onClick={() => {
                                             validateForm()
                                                 .then((errors) => setValidateErrors(errors))
