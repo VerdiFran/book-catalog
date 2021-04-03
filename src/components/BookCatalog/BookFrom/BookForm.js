@@ -7,6 +7,16 @@ import * as Yup from 'yup'
 // eslint-disable-next-line no-unused-vars
 import {checkIsbn} from '../../../utils/validators/checkIsbn'
 
+/**
+ * Component that contains common form for editing and adding book
+ *
+ * @param {any} initialValues Initial values for form
+ * @param {string} submitButtonText Text for submit button
+ * @param {function} handleSubmit Handle submit
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
     const BookSchema = Yup.object().shape({
         title: Yup.string()

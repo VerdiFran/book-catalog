@@ -5,7 +5,11 @@ import styles from './Registration.module.scss'
 import * as Yup from 'yup'
 
 /**
- * Component with register form
+ * Registration component that returns registration form
+ *
+ * @param {boolean} loading State of registration process
+ * @param {function} register Register user
+ *
  * @returns {JSX.Element}
  * @constructor
  */

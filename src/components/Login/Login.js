@@ -5,7 +5,11 @@ import styles from './Login.module.scss'
 import * as Yup from 'yup'
 
 /**
- * Component with auth form
+ * Login component that returns login form
+ *
+ * @param {boolean} loading State of login process
+ * @param {function} login Login user by email and password
+ *
  * @returns {JSX.Element}
  * @constructor
  */

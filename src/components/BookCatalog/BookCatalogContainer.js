@@ -13,11 +13,13 @@ const mapStateToProps = (state) => ({
 
 /**
  * Container component that wrapped table of books and actions
- * @param books
- * @param loading
- * @param getBookCatalog
- * @param deleteBook
- * @param setCurrentBookById
+ *
+ * @param {any} books Data about books
+ * @param {boolean} loading Loading of books data from firestore
+ * @param {function} getBookCatalog Get book catalog
+ * @param {function} deleteBook Delete book from firestore
+ * @param {function} setCurrentBookById Set book that was selected
+ *
  * @returns {JSX.Element}
  * @constructor
  */

@@ -44,7 +44,9 @@ export const login = (email, password) => async (dispatch) => {
 
     if (users.length) {
         dispatch(setUserData(true, {email: users[0].email}))
-    } else message.error('Неверный email или пароль.', 5)
+    } else {
+        message.error('Неверный email или пароль.', 5)
+    }
 
     dispatch(toggleLoading(false))
 }
@@ -53,20 +55,15 @@ export const register = (email, password) => async (dispatch) => {
     dispatch(toggleLoading(true))
 
     const ref = firebase.firestore().collection('users')
-
     const snap = await ref.where('email', '==', email).get()
-
     const users = []
+
     snap.forEach(doc => users.push(doc.data()))
 
-    if (users.length) {
-        message.error('Пользователь с таким email уже существует.')
+    if (!users.length) {
+        await ref.add({email, password})
     } else {
-        try {
-            await ref.add({email, password})
-        } catch (e) {
-            console.log(e)
-        }
+        message.error('Пользователь с таким email уже существует.')
     }
 
     dispatch(toggleLoading(false))

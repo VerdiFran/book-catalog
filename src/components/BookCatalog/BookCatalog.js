@@ -5,6 +5,17 @@ import {TO_EDIT_BOOK, TO_NEW_BOOK} from '../../routes'
 import {PlusSquareOutlined} from '@ant-design/icons'
 import styles from './BookCatalog.module.scss'
 
+/**
+ * Component that contains catalog of books
+ *
+ * @param {boolean} loading Loading of books data from firestore
+ * @param {any} data Data about books
+ * @param {function} deleteBook Delete book from firestore
+ * @param {function} setCurrentBook Set book that was selected
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
     const columns = [
         {
@@ -56,7 +67,9 @@ const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
                     icon={<PlusSquareOutlined/>}
                     style={{marginBottom: '14px'}}
                 >
-                    <span><NavLink to={TO_NEW_BOOK}>Добавить книгу</NavLink></span>
+                    <span>
+                        <NavLink to={TO_NEW_BOOK}>Добавить книгу</NavLink>
+                    </span>
                 </Button>
                 <Table dataSource={data} columns={columns} size="small"/>
             </div>

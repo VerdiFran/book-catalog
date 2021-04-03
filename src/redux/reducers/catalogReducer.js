@@ -2,12 +2,12 @@ import firebase from './../../firebase'
 
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
 const SET_BOOKS = 'SET_BOOKS'
-const SET_CURRENT_BOOK_INFO = 'SET-CURRENT-BOOK-INFO'
+const SET_CURRENT_BOOK_DATA = 'SET-CURRENT-BOOK-DATA'
 
 const initialState = {
     books: [],
     loading: false,
-    currentBookInfo: null,
+    currentBookData: null,
     currentBookIsSet: false
 }
 
@@ -23,10 +23,10 @@ const catalogReducer = (state = initialState, action) => {
                 ...state,
                 books: action.books
             }
-        case SET_CURRENT_BOOK_INFO:
+        case SET_CURRENT_BOOK_DATA:
             return {
                 ...state,
-                currentBookInfo: action.currentBookInfo,
+                currentBookData: action.currentBookData,
                 currentBookIsSet: action.currentBookIsSet
             }
         default:
@@ -36,8 +36,8 @@ const catalogReducer = (state = initialState, action) => {
 
 const toggleLoading = (value) => ({type: TOGGLE_LOADING, value})
 const setBooks = (books) => ({type: SET_BOOKS, books})
-const setCurrentBookInfo = (currentBookInfo, currentBookIsSet) =>
-    ({type: SET_CURRENT_BOOK_INFO, currentBookInfo, currentBookIsSet})
+const setCurrentBookData = (currentBookData, currentBookIsSet) =>
+    ({type: SET_CURRENT_BOOK_DATA, currentBookData, currentBookIsSet})
 
 export const getBookCatalog = () => dispatch => {
     dispatch(toggleLoading(true))
@@ -72,7 +72,7 @@ export const editBook = (id, title, authors, publishingYear, isbn) => async () =
 }
 
 export const setCurrentBookById = (id) => async dispatch => {
-    dispatch(setCurrentBookInfo(null, false))
+    dispatch(setCurrentBookData(null, false))
 
     const ref = firebase.firestore().collection('books')
     const doc = await ref.doc(id).get()
@@ -81,7 +81,7 @@ export const setCurrentBookById = (id) => async dispatch => {
         id
     }
 
-    dispatch(setCurrentBookInfo(book, true))
+    dispatch(setCurrentBookData(book, true))
 }
 
 export default catalogReducer
