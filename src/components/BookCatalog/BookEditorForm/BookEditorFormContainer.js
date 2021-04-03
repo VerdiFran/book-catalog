@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
 
 const BookEditorFromContainer = ({currentBookInfo, currentBookIsSet, editBook}) => {
     const handleSubmit = (values) =>
-        editBook(values.title, values.authors, values.publishingYear, values.isbn)
+        editBook(values.id, values.title, values.authors, values.publishingYear, values.isbn)
 
     if (!currentBookIsSet) return <Spin><BookEditorForm/></Spin>
 
