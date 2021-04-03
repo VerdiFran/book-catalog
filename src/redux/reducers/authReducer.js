@@ -1,11 +1,8 @@
 import firebase from '../../firebase'
-import {userIdGenerator} from '../../utils/generators/userIdGenerator'
 import {message} from 'antd'
 
 const SET_USER_DATA = 'SET-USER-DATA'
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
-
-const userIdIterator = userIdGenerator()
 
 const initialState = {
     isAuth: false,
@@ -65,10 +62,8 @@ export const register = (email, password) => async (dispatch) => {
     if (users.length) {
         message.error('Пользователь с таким email уже существует.')
     } else {
-        const id = userIdIterator.next().value
-
         try {
-            await ref.add({id, email, password})
+            await ref.add({email, password})
         } catch (e) {
             console.log(e)
         }
