@@ -13,8 +13,8 @@ const Login = ({login}) => {
     const {Title} = Typography
 
     const LoginSchema = Yup.object().shape({
-        email: Yup.string().email('Неправильный email').required('Это поле обязательно для заполнения'),
-        password: Yup.string().required('Это поле обязательно для заполнения')
+        email: Yup.string().email('Неправильный email.').required('Это поле обязательно для заполнения.'),
+        password: Yup.string().required('Это поле обязательно для заполнения.')
     })
 
     const [validateErrors, setValidateErrors] = useState({})
