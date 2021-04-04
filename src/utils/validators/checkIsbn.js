@@ -7,9 +7,10 @@ import * as Yup from 'yup'
  * @returns {boolean}
  */
 export function checkIsbn(value) {
-    if (!value) return false
+    const digits = value?.match(/\d/g)
 
-    const digits = value.match(/\d/g)
+    if (!digits) return false
+
     const controlDigit = +digits[digits.length - 1]
 
     if (/^97([89])/.test(value) && digits.length === 13) {
