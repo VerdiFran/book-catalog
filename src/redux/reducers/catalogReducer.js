@@ -67,17 +67,28 @@ export const getBookCatalog = () => (dispatch) => {
  * @param {string[]} authors Authors of book
  * @param {number} publishingYear Year of publishing
  * @param {string} isbn ISBN of book
- * @returns {function(): Promise<void>}
+ * @returns {function(*): Promise<void>}
  */
-export const addBookToCatalog = (title, authors, publishingYear, isbn) => async () => {
-    const ref = firebase.firestore().collection('books')
-    await ref.add({title, authors, publishingYear, isbn})
-}
+export const addBookToCatalog = (title, authors, publishingYear, isbn) =>
+    async (dispatch) => {
+        dispatch(toggleLoading(true))
+
+        try {
+            const ref = firebase.firestore().collection('books')
+            await ref.add({title, authors, publishingYear, isbn})
+
+            dispatch(toggleLoading(false))
+
+            message.success('Книга добавлена в каталог.')
+        } catch (e) {
+            message.error('Возникла какая-то ошибка.')
+        }
+    }
 
 /**
  * Delete book from catalog with firebase
  * @param {string} id Document (book) ID
- * @returns {function(): Promise<void>}
+ * @returns {function(*): Promise<void>}
  */
 export const deleteBook = (id) => async () => {
     const ref = firebase.firestore().collection('books')
