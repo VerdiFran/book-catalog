@@ -117,6 +117,7 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
                         <Input
                             name="isbn"
                             value={values.isbn}
+                            placeholder="Например, 978-5-93286-208-7"
                             onChange={handleChange}
                         />
                     </Form.Item>
