@@ -3,7 +3,6 @@ import {Button, Space, Table, List, Spin} from 'antd'
 import {NavLink} from 'react-router-dom'
 import {TO_EDIT_BOOK, TO_NEW_BOOK} from '../../routes'
 import {PlusSquareOutlined} from '@ant-design/icons'
-import styles from './BookCatalog.module.scss'
 
 /**
  * Component that contains catalog of books
@@ -61,11 +60,11 @@ const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
 
     return (
         <Spin spinning={loading}>
-            <div className={styles.catalogContainer}>
+            <div>
                 <Button
                     type="dashed"
                     icon={<PlusSquareOutlined/>}
-                    style={{marginBottom: '14px'}}
+                    style={{marginBottom: '16px'}}
                 >
                     <span>
                         <NavLink to={TO_NEW_BOOK}>Добавить книгу</NavLink>
