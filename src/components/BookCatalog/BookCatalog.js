@@ -71,7 +71,7 @@ const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
                         <NavLink to={TO_NEW_BOOK}>Добавить книгу</NavLink>
                     </span>
                 </Button>
-                <Table dataSource={data} columns={columns} size="small"/>
+                <Table dataSource={data} columns={columns} size="small" pagination={{pageSize: 5}}/>
             </div>
         </Spin>
     )
