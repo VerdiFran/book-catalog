@@ -1,9 +1,8 @@
 import React from 'react'
-import {Button, Space, Table, List, Spin} from 'antd'
+import {Button, Space, Table, List} from 'antd'
 import {NavLink} from 'react-router-dom'
 import {TO_EDIT_BOOK, TO_NEW_BOOK} from '../../routes'
 import {PlusSquareOutlined} from '@ant-design/icons'
-import styles from './BookCatalog.module.scss'
 
 /**
  * Component that contains catalog of books
@@ -60,20 +59,24 @@ const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
     ]
 
     return (
-        <Spin spinning={loading}>
-            <div className={styles.catalogContainer}>
-                <Button
-                    type="dashed"
-                    icon={<PlusSquareOutlined/>}
-                    style={{marginBottom: '14px'}}
-                >
-                    <span>
-                        <NavLink to={TO_NEW_BOOK}>Добавить книгу</NavLink>
-                    </span>
-                </Button>
-                <Table dataSource={data} columns={columns} size="small"/>
-            </div>
-        </Spin>
+        <div>
+            <Button
+                type="dashed"
+                icon={<PlusSquareOutlined/>}
+                style={{marginBottom: '16px'}}
+            >
+                <span>
+                    <NavLink to={TO_NEW_BOOK}>Добавить книгу</NavLink>
+                </span>
+            </Button>
+            <Table
+                dataSource={data}
+                columns={columns}
+                size="small"
+                pagination={{pageSize: 5}}
+                loading={loading}
+            />
+        </div>
     )
 }
 
