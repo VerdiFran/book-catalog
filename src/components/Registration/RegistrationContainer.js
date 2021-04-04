@@ -1,10 +1,19 @@
 import {connect} from 'react-redux'
 import {register} from '../../redux/reducers/authReducer'
 import Registration from './Registration'
-import {getLoading} from '../../utils/selectors/authSelectors'
+import {getIsAuth, getLoading} from '../../utils/selectors/authSelectors'
+import {Redirect} from 'react-router-dom'
+import {TO_CATALOG} from '../../routes'
 
 const mapStateToProps = (state) => ({
-    loading: getLoading(state)
+    loading: getLoading(state),
+    isAuth: getIsAuth(state)
 })
 
-export default connect(mapStateToProps, {register})(Registration)
+const RegistrationContainer = ({loading, isAuth, register}) => {
+    if (isAuth) return <Redirect to={TO_CATALOG}/>
+
+    return <Registration loading={loading} register={register}/>
+}
+
+export default connect(mapStateToProps, {register})(RegistrationContainer)
