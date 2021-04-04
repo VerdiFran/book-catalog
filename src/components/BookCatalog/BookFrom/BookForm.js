@@ -1,18 +1,45 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Button, Form, Input} from 'antd'
 import {MinusSquareOutlined, PlusSquareOutlined} from '@ant-design/icons'
 import {FieldArray, Formik} from 'formik'
 import styles from './BookForm.module.scss'
+import * as Yup from 'yup'
+// eslint-disable-next-line no-unused-vars
+import {checkIsbn} from '../../../utils/validators/checkIsbn'
 
 const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
+    const BookSchema = Yup.object().shape({
+        title: Yup.string()
+            .required('Это поле обязательно для заполнения.'),
+        publishingYear: Yup.number()
+            .required('Это поле обязательно для заполнения.')
+            .max(new Date().getFullYear(), 'Книги в будущем еще не издаются, проверьте правильность ввода.'),
+        isbn: Yup.string()
+            .required('Это поле обязательно для заполнения.')
+            .isValidIsbn('Неправильный ISBN.')
+    })
+
+    const [publishingYearWarning, setPublishingYearWarning] = useState(false)
+    const [validateErrors, setValidateErrors] = useState({})
+
     return (
         <Formik
             initialValues={initialValues}
+            validationSchema={BookSchema}
             onSubmit={(values) => handleSubmit(values)}
         >
-            {({values, handleSubmit, handleChange}) => (
+            {({
+                  values,
+                  handleSubmit,
+                  handleChange,
+                  validateForm
+              }) => (
                 <Form layout="vertical">
-                    <Form.Item label="Название">
+                    <Form.Item
+                        label="Название"
+                        validateStatus={validateErrors.title && 'error'}
+                        help={validateErrors.title}
+                    >
                         <Input
                             name="title"
                             value={values.title}
@@ -52,14 +79,31 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
                             )}
                         </FieldArray>
                     </Form.Item>
-                    <Form.Item label="Год издания">
+                    <Form.Item
+                        label="Год издания"
+                        validateStatus={publishingYearWarning && 'warning'}
+                        help={
+                            publishingYearWarning &&
+                            'Указанный год издания выглядит подозрительно, проверьте правильность ввода.'
+                        }
+                        hasFeedback
+                    >
                         <Input
                             name="publishingYear"
                             value={values.publishingYear}
                             onChange={handleChange}
+                            onBlur={(e) => {
+                                if (e.currentTarget.value < 1800) {
+                                    setPublishingYearWarning(true)
+                                } else setPublishingYearWarning(false)
+                            }}
                         />
                     </Form.Item>
-                    <Form.Item label="ISBN">
+                    <Form.Item
+                        label="ISBN"
+                        validateStatus={validateErrors.isbn && 'error'}
+                        help={validateErrors.isbn}
+                    >
                         <Input
                             name="isbn"
                             value={values.isbn}
@@ -69,7 +113,14 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
                     <Form.Item>
                         <div className={styles.buttonsContainer}>
                             <Button onClick={() => window.history.back()}>Отменить</Button>
-                            <Button htmlType="submit" onClick={handleSubmit} type="primary">{submitButtonText}</Button>
+                            <Button
+                                htmlType="submit"
+                                onClick={() => {
+                                    validateForm().then((errors) => setValidateErrors(errors))
+                                    handleSubmit()
+                                }}
+                                type="primary"
+                            >{submitButtonText}</Button>
                         </div>
                     </Form.Item>
                 </Form>
