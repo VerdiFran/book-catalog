@@ -82,6 +82,7 @@ export const register = (email, password) => async (dispatch) => {
 
     if (!users.length) {
         await ref.add({email, password})
+        await login(email, password)(dispatch)
     } else {
         message.error('Пользователь с таким email уже существует.')
     }
