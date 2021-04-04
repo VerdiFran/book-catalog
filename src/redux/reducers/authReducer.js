@@ -1,5 +1,6 @@
 import firebase from '../../firebase'
 import {message} from 'antd'
+import sha256 from 'crypto-js/sha256'
 
 const SET_USER_DATA = 'SET-USER-DATA'
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
@@ -40,10 +41,12 @@ const toggleLoading = (loading) => ({type: TOGGLE_LOADING, loading})
 export const login = (email, password) => async (dispatch) => {
     dispatch(toggleLoading(true))
 
+    const hashPassword = sha256(password).toString()
+
     const ref = firebase.firestore().collection('users')
     const snap = await ref
         .where('email', '==', email)
-        .where('password', '==', password).get()
+        .where('password', '==', hashPassword).get()
 
     const users = []
     snap.forEach(doc => users.push(doc.data()))
@@ -80,8 +83,13 @@ export const register = (email, password) => async (dispatch) => {
 
     snap.forEach(doc => users.push(doc.data()))
 
+    const hashPassword = sha256(password).toString()
+
     if (!users.length) {
-        await ref.add({email, password})
+        await ref.add({
+            email: email,
+            password: hashPassword
+        })
         await login(email, password)(dispatch)
     } else {
         message.error('Пользователь с таким email уже существует.')
