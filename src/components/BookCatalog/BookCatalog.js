@@ -49,10 +49,10 @@ const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
             key: 'actions',
             render: (text, record) => (
                 <Space size="small">
-                    <Button onClick={() => setCurrentBook(record.id)} type="link">
+                    <Button onClick={() => setCurrentBook(record.key)} type="link">
                         <NavLink to={TO_EDIT_BOOK}>Редактировать</NavLink>
                     </Button>
-                    <Button onClick={() => deleteBook(record.id)} type="link">Удалить</Button>
+                    <Button onClick={() => deleteBook(record.key)} type="link">Удалить</Button>
                 </Space>
             ),
             align: 'center'
