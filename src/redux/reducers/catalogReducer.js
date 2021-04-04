@@ -90,9 +90,19 @@ export const addBookToCatalog = (title, authors, publishingYear, isbn) =>
  * @param {string} id Document (book) ID
  * @returns {function(*): Promise<void>}
  */
-export const deleteBook = (id) => async () => {
-    const ref = firebase.firestore().collection('books')
-    await ref.doc(id).delete()
+export const deleteBook = (id) => async (dispatch) => {
+    dispatch(toggleLoading(true))
+
+    try {
+        const ref = firebase.firestore().collection('books')
+        await ref.doc(id).delete()
+
+        dispatch(toggleLoading(false))
+
+        message.success('Книга удалена из каталога.')
+    } catch (e) {
+        message.error('Возникла какая-то ошибка.')
+    }
 }
 
 /**
