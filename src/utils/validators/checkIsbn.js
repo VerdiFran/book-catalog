@@ -7,6 +7,8 @@ import * as Yup from 'yup'
  * @returns {boolean}
  */
 export function checkIsbn(value) {
+    if (!value) return false
+
     const digits = value.match(/\d/g)
     const controlDigit = +digits[digits.length - 1]
 
