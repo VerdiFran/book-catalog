@@ -28,7 +28,7 @@ const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
             dataIndex: 'authors',
             key: 'authors',
             render: (authors) => <List size="small">
-                {authors.map(author => <List.Item>{author}</List.Item>)}
+                {authors.map((author, index) => <List.Item key={index}>{author}</List.Item>)}
             </List>
         },
         {
