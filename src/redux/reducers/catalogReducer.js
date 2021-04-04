@@ -1,4 +1,5 @@
 import firebase from './../../firebase'
+import {message} from 'antd'
 
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
 const SET_BOOKS = 'SET_BOOKS'
@@ -90,12 +91,23 @@ export const deleteBook = (id) => async () => {
  * @param {string[]} authors Authors of book
  * @param {number} publishingYear Year of publishing
  * @param {string} isbn ISBN of book
- * @returns {function(): Promise<void>}
+ * @returns {function(*): Promise<void>}
  */
-export const editBook = (id, title, authors, publishingYear, isbn) => async () => {
-    const ref = firebase.firestore().collection('books')
-    await ref.doc(id).update({title, authors, publishingYear, isbn})
-}
+export const editBook = (id, title, authors, publishingYear, isbn) =>
+    async (dispatch) => {
+        dispatch(toggleLoading(true))
+
+        try {
+            const ref = firebase.firestore().collection('books')
+            await ref.doc(id).update({title, authors, publishingYear, isbn})
+
+            dispatch(toggleLoading(false))
+
+            message.success('Данные книги обновлены.')
+        } catch (e) {
+            message.error('Возникла какая-то ошибка.')
+        }
+    }
 
 /**
  * Get selected book data from firestore and set it to redux store

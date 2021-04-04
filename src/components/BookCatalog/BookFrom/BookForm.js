@@ -11,13 +11,14 @@ import {checkIsbn} from '../../../utils/validators/checkIsbn'
  * Component that contains common form for editing and adding book
  *
  * @param {any} initialValues Initial values for form
+ * @param {boolean} loading Loading state
  * @param {string} submitButtonText Text for submit button
  * @param {function} handleSubmit Handle submit
  *
  * @returns {JSX.Element}
  * @constructor
  */
-const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
+const BookForm = ({initialValues, loading, submitButtonText, handleSubmit}) => {
     const BookSchema = Yup.object().shape({
         title: Yup.string()
             .required('Это поле обязательно для заполнения.'),
@@ -126,11 +127,12 @@ const BookForm = ({initialValues, submitButtonText, handleSubmit}) => {
                             <Button onClick={() => window.history.back()}>Отменить</Button>
                             <Button
                                 htmlType="submit"
+                                type="primary"
+                                loading={loading}
                                 onClick={() => {
                                     validateForm().then((errors) => setValidateErrors(errors))
                                     handleSubmit()
                                 }}
-                                type="primary"
                             >{submitButtonText}</Button>
                         </div>
                     </Form.Item>
