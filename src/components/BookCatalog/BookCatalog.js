@@ -20,7 +20,8 @@ const BookCatalog = ({loading, data, deleteBook, setCurrentBook}) => {
         {
             title: 'Название',
             dataIndex: 'title',
-            key: 'title'
+            key: 'title',
+            width: '500px'
         },
         {
             title: 'Авторы',
