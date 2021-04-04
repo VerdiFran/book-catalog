@@ -1,6 +1,8 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+// Это нужно было бы хранить в конфигурационном файле или в каком-либо другом месте,
+// однако для удобства демонстрации я не стала этого делать :)
 const firebaseConfig = {
     apiKey: "AIzaSyD0RKcO5bl98v-1wghhHW2FekeBJPRs45I",
     authDomain: "book-catalog-2f1de.firebaseapp.com",
