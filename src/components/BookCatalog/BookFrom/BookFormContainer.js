@@ -1,12 +1,16 @@
 import BookForm from './BookForm'
-import {connect} from 'react-redux'
 
-const mapStateToProps = (state) => ({
-})
-
-const BookFormContainer = (props) => {
-    const {formValues} = props
-
+/**
+ * Container component for common book form
+ *
+ * @param {any} formValues Initial values for form
+ * @param {string} submitButtonText Text for submit button
+ * @param {function} handleSubmit Handle submit
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const BookFormContainer = ({formValues, submitButtonText, handleSubmit}) => {
     const initialValues = formValues || {
         title: '',
         authors: [''],
@@ -16,9 +20,9 @@ const BookFormContainer = (props) => {
 
     return <BookForm
         initialValues={initialValues}
-        submitButtonText={props.submitButtonText}
-        handleSubmit={props.handleSubmit}
+        submitButtonText={submitButtonText}
+        handleSubmit={handleSubmit}
     />
 }
 
-export default connect(mapStateToProps)(BookFormContainer)
+export default BookFormContainer

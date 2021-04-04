@@ -5,11 +5,15 @@ import styles from './Login.module.scss'
 import * as Yup from 'yup'
 
 /**
- * Component with auth form
+ * Login component that returns login form
+ *
+ * @param {boolean} loading State of login process
+ * @param {function} login Login user by email and password
+ *
  * @returns {JSX.Element}
  * @constructor
  */
-const Login = ({login}) => {
+const Login = ({loading, login}) => {
     const {Title} = Typography
 
     const LoginSchema = Yup.object().shape({
@@ -66,12 +70,13 @@ const Login = ({login}) => {
                                 <div className={styles.buttonContainer}>
                                     <Button
                                         htmlType="submit"
+                                        type="primary"
+                                        loading={loading}
                                         onClick={() => {
                                             validateForm()
                                                 .then((errors) => setValidateErrors(errors))
                                             handleSubmit()
                                         }}
-                                        type="primary"
                                     >Войти</Button>
                                 </div>
                             </Form.Item>

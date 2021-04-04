@@ -7,6 +7,10 @@ import styles from './Header.module.scss'
 
 /**
  * Header component
+ *
+ * @param {boolean} isAuth Whether the user was authenticated
+ * @param {any} userData Authenticated user data
+ *
  * @returns {JSX.Element}
  * @constructor
  */

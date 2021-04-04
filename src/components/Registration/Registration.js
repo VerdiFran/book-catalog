@@ -5,11 +5,15 @@ import styles from './Registration.module.scss'
 import * as Yup from 'yup'
 
 /**
- * Component with register form
+ * Registration component that returns registration form
+ *
+ * @param {boolean} loading State of registration process
+ * @param {function} register Register user
+ *
  * @returns {JSX.Element}
  * @constructor
  */
-const Registration = ({register}) => {
+const Registration = ({loading, register}) => {
     const {Title} = Typography
 
     const RegistrationSchema = Yup.object().shape({
@@ -106,6 +110,7 @@ const Registration = ({register}) => {
                                     <Button
                                         htmlType="submit"
                                         type="primary"
+                                        loading={loading}
                                         onClick={() => {
                                             validateForm()
                                                 .then((errors) => setValidateErrors(errors))

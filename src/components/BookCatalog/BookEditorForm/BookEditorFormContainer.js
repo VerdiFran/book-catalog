@@ -1,24 +1,34 @@
 import BookEditorForm from './BookEditorForm'
 import {connect} from 'react-redux'
 import {editBook} from '../../../redux/reducers/catalogReducer'
-import {getCurrentBookInfo, getCurrentBookIsSet} from '../../../utils/selectors/catalogSelectors'
+import {getCurrentBookData, getCurrentBookIsSet} from '../../../utils/selectors/catalogSelectors'
 import {Spin} from 'antd'
 import {compose} from 'redux'
 import withAuthRedirect from '../../../hoc/withAuthRedirect'
 
 const mapStateToProps = (state) => ({
-    currentBookInfo: getCurrentBookInfo(state),
+    currentBookData: getCurrentBookData(state),
     currentBookIsSet: getCurrentBookIsSet(state)
 })
 
-const BookEditorFromContainer = ({currentBookInfo, currentBookIsSet, editBook}) => {
+/**
+ * Container component for book editor form
+ *
+ * @param {any} currentBookData Data about selected book
+ * @param {boolean} currentBookIsSet Set indicator for current book
+ * @param {function} editBook Edit book data
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const BookEditorFromContainer = ({currentBookData, currentBookIsSet, editBook}) => {
     const handleSubmit = (values) =>
-        editBook(values.title, values.authors, values.publishingYear, values.isbn)
+        editBook(values.id, values.title, values.authors, values.publishingYear, values.isbn)
 
     if (!currentBookIsSet) return <Spin><BookEditorForm/></Spin>
 
     return <BookEditorForm
-        formValues={currentBookInfo}
+        formValues={currentBookData}
         handleSubmit={handleSubmit}
     />
 }
