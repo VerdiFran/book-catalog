@@ -7,7 +7,7 @@ import {TO_CATALOG} from '../../routes'
 import {getLoading} from '../../utils/selectors/authSelectors'
 
 const mapStateToProps = (state) => ({
-    isAuth: getIsAuth(state)
+    isAuth: getIsAuth(state),
     loading: getLoading(state)
 })
 
