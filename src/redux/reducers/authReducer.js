@@ -58,6 +58,14 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 /**
+ * Logout user
+ * @returns {function(*): void}
+ */
+export const logout = () => (dispatch) => {
+    dispatch(setUserData(false, {}))
+}
+
+/**
  * Register user with firebase by email and password
  * @param {string} email Email
  * @param {string} password Password

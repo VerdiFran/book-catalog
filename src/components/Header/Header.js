@@ -10,16 +10,16 @@ import styles from './Header.module.scss'
  *
  * @param {boolean} isAuth Whether the user was authenticated
  * @param {any} userData Authenticated user data
- *
+ * @param {function} logout Logout user
  * @returns {JSX.Element}
  * @constructor
  */
-const Header = ({isAuth, userData}) => {
+const Header = ({isAuth, userData, logout}) => {
     const {Header} = Layout
 
     const menu = <Menu>
         <Menu.Item>
-            <Button type="link">Выйти</Button>
+            <Button type="link" onClick={logout}>Выйти</Button>
         </Menu.Item>
     </Menu>
 
