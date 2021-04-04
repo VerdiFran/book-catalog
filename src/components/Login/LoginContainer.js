@@ -11,10 +11,10 @@ const mapStateToProps = (state) => ({
     loading: getLoading(state)
 })
 
-const LoginContainer = ({isAuth, login}) => {
+const LoginContainer = ({isAuth, loading, login}) => {
     if (isAuth) return <Redirect to={TO_CATALOG}/>
 
-    return <Login login={login}/>
+    return <Login loading={loading} login={login}/>
 }
 
 export default connect(mapStateToProps, {login})(LoginContainer)
