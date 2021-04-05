@@ -4,12 +4,14 @@ import {message} from 'antd'
 const TOGGLE_LOADING = 'TOGGLE-LOADING'
 const SET_BOOKS = 'SET_BOOKS'
 const SET_CURRENT_BOOK_DATA = 'SET-CURRENT-BOOK-DATA'
+const TOGGLE_EDITING_IS_FINISHED = 'TOGGLE-EDITING-IS-FINISHED'
 
 const initialState = {
     books: [],
     loading: false,
     currentBookData: null,
-    currentBookIsSet: false
+    currentBookIsSet: false,
+    editingIsFinished: false
 }
 
 const catalogReducer = (state = initialState, action) => {
@@ -30,6 +32,11 @@ const catalogReducer = (state = initialState, action) => {
                 currentBookData: action.currentBookData,
                 currentBookIsSet: action.currentBookIsSet
             }
+        case TOGGLE_EDITING_IS_FINISHED:
+            return {
+                ...state,
+                editingIsFinished: action.value
+            }
         default:
             return state
     }
@@ -39,6 +46,8 @@ const toggleLoading = (value) => ({type: TOGGLE_LOADING, value})
 const setBooks = (books) => ({type: SET_BOOKS, books})
 const setCurrentBookData = (currentBookData, currentBookIsSet) =>
     ({type: SET_CURRENT_BOOK_DATA, currentBookData, currentBookIsSet})
+
+export const toggleEditingIsFinished = (value) => ({type: TOGGLE_EDITING_IS_FINISHED, value})
 
 /**
  * Get book catalog from firestore and set it to redux store
@@ -125,6 +134,8 @@ export const editBook = (id, title, authors, publishingYear, isbn) =>
             dispatch(toggleLoading(false))
 
             message.success('Данные книги обновлены.')
+
+            dispatch(toggleEditingIsFinished(true))
         } catch (e) {
             message.error('Возникла какая-то ошибка.')
         }
