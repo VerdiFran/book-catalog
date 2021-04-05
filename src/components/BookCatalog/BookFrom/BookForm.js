@@ -6,6 +6,8 @@ import styles from './BookForm.module.scss'
 import * as Yup from 'yup'
 // eslint-disable-next-line no-unused-vars
 import {checkIsbn} from '../../../utils/validators/checkIsbn'
+import {Redirect} from 'react-router-dom'
+import {TO_CATALOG} from '../../../routes'
 
 /**
  * Component that contains common form for editing and adding book
@@ -19,6 +21,12 @@ import {checkIsbn} from '../../../utils/validators/checkIsbn'
  * @constructor
  */
 const BookForm = ({initialValues, loading, submitButtonText, handleSubmit}) => {
+    const [loadingIsFinished, setLoadingIsFinished] = useState(false)
+    const [publishingYearWarning, setPublishingYearWarning] = useState(false)
+    const [validateErrors, setValidateErrors] = useState({})
+
+    if (loadingIsFinished) return <Redirect to={TO_CATALOG}/>
+
     const BookSchema = Yup.object().shape({
         title: Yup.string()
             .required('Это поле обязательно для заполнения.'),
@@ -30,14 +38,14 @@ const BookForm = ({initialValues, loading, submitButtonText, handleSubmit}) => {
             .isValidIsbn('Неправильный ISBN.')
     })
 
-    const [publishingYearWarning, setPublishingYearWarning] = useState(false)
-    const [validateErrors, setValidateErrors] = useState({})
-
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={BookSchema}
-            onSubmit={(values) => handleSubmit(values)}
+            onSubmit={(values) => {
+                handleSubmit(values)
+                setLoadingIsFinished(true)
+            }}
         >
             {({
                   values,
