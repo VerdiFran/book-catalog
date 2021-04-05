@@ -1,0 +1,5 @@
+export const TO_NEW_BOOK = '/new-book'
+export const TO_CATALOG = '/catalog'
+export const TO_LOGIN = '/login'
+export const TO_REGISTRATION = '/registration'
+export const TO_EDIT_BOOK = '/edit-book'
